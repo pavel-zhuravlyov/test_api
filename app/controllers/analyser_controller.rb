@@ -6,6 +6,6 @@ class AnalyserController < ApplicationController
   end
 
   def correlation
-    render json: Analyser.new.correlation(params[:first_dataset], params[:second_dataset])
+    render json: {correlation: Analyser.new.correlation(params[:first_dataset], params[:second_dataset])}
   end
 end
