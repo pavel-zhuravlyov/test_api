@@ -1,8 +1,6 @@
 class Analyser
   def analyse(data)
-    if data.empty?
-      nil
-    else
+    if validate_dataset(data)
       data.sort!
       { 'max' => data.max,
         'min' => data.min,
@@ -15,7 +13,7 @@ class Analyser
   end
 
   def correlation(first, second)
-    if first.size == second.size
+    if validate_dataset(first) && validate_dataset(second) && first.size == second.size
       first.map { |element| element - mean(first) }
            .zip(second.map { |element| element - mean(second) })
            .map! { |element| element.reduce(:*) } .reduce(:+) /
@@ -25,6 +23,10 @@ class Analyser
   end
 
   private
+
+  def validate_dataset(dataset)
+    dataset.respond_to?(:each) && dataset.all? { |e| e.is_a? Numeric }
+  end
 
   def mean(data)
     data.reduce(:+) / data.size.to_f
