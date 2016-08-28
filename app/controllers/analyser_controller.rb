@@ -2,7 +2,7 @@ class AnalyserController < ApplicationController
   before_filter :authenticate_user!
 
   def analyse
-    result = Services::Analyser.new.(params[:dataset])
+    service = Services::Analyser.new.(params[:dataset])
     if service.perform
       render json: service.result
     else
