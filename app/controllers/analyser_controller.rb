@@ -2,18 +2,19 @@ class AnalyserController < ApplicationController
   before_filter :authenticate_user!
 
   def analyse
-    result = Analyser.new.analyse(params[:dataset])
-    if result
-      render json: result
+    result = Services::Analyser.new.(params[:dataset])
+    if service.perform
+      render json: service.result
     else
-      render json: { :errors => ['Invalid data'] }, :status => 422
+      render json: { errors: ['Invalid data'] }, status: 422
     end
   end
 
   def correlation
-    result = Analyser.new.correlation(params[:first_dataset], params[:second_dataset])
-    if result
-      render json: { correlation: result }
+    service = Services::CorrelationChecker.new(params[:first_dataset], params[:second_dataset])
+
+    if service.perform
+      render json: { correlation: service.result }
     else
       render json: { errors: ['Invalid data'] }, status: 422
     end
