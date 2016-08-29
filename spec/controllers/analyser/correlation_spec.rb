@@ -8,7 +8,7 @@ describe AnalyserController, type: :controller do
         request.headers.merge!(auth_headers)
       end
 
-      it 'generates result' do
+      it 'returns result' do
         post :correlation, {first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4, 5]}
 
         expect(response).to have_http_status 200
@@ -25,7 +25,7 @@ describe AnalyserController, type: :controller do
           request.headers.merge!(auth_headers)
         end
 
-        it 'generates result' do
+        it 'returns error' do
           post :correlation, {first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4]}
           expect(response).to have_http_status 422
         end
@@ -39,7 +39,7 @@ describe AnalyserController, type: :controller do
           request.headers.merge!(auth_headers)
         end
 
-        it 'generates result' do
+        it 'returns error' do
           post :correlation, {first_dataset: [1, '2', 3, 4, 5], second_dataset: [1, 'tu', 3, 4, 5]}
           expect(response).to have_http_status 422
         end
