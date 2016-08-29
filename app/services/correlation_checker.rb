@@ -8,7 +8,7 @@ class CorrelationChecker
 
   def perform
     return false unless (datasets_are_numeric || parse_datasets) &&
-      datasets_are_not_empty_and_of_equal_size
+      datasets_are_valid_and_of_equal_size
 
     correlation
   end
@@ -23,8 +23,8 @@ private
     is_numeric?(@first_dataset) && is_numeric?(@second_dataset)
   end
 
-  def datasets_are_not_empty_and_of_equal_size
-    @first_dataset.any? && @second_dataset.any? &&
+  def datasets_are_valid_and_of_equal_size
+    @first_dataset.size > 1 && @second_dataset.size > 1 &&
       @first_dataset.size == @second_dataset.size
   end
 

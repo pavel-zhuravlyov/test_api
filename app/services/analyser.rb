@@ -6,7 +6,7 @@ class Analyser
   end
 
   def perform
-    return false unless (dataset_is_numeric || parse_dataset) && @dataset.any?
+    return false unless (dataset_is_numeric || parse_dataset) && @dataset.size > 1
 
     analyse
   end
