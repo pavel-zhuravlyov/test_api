@@ -6,12 +6,24 @@ class Analyser
   end
 
   def perform
-    return false unless validate_dataset
+    return false unless (dataset_is_numeric || parse_dataset) && @dataset.any?
 
     analyse
   end
 
 private
+
+  def dataset_is_numeric
+    @dataset.all? {|e| e.is_a? Numeric}
+  end
+
+  def parse_dataset
+    unless @dataset.map! {|e| e[/\d+/]}.any? {|e| e.nil?} then
+      @dataset.map! &:to_f
+    else
+      false
+    end
+  end
 
   def analyse
     @dataset.sort!
@@ -27,10 +39,6 @@ private
     }
 
     true
-  end
-
-  def validate_dataset
-    @dataset.respond_to?(:each) && @dataset.size > 0 && @dataset.all? { |e| e.is_a? Numeric }
   end
 
   def mean(numbers)

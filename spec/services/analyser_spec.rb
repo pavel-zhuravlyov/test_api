@@ -21,7 +21,7 @@ describe Analyser do
                       upper_quartile:	66.5,
                       outliers:	[5,6,7,104,132]} }
 
-    it 'generate result' do
+    it 'generates result' do
       expect(subject.perform).to eq true
 
       expect(subject.result).to eq response
