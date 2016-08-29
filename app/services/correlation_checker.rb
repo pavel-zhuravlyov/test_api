@@ -17,7 +17,7 @@ private
 
   def datasets_are_numeric
     def is_numeric?(dataset)
-      return dataset.all? {|e| e.is_a? Numeric}
+      return dataset.all? { |e| e.is_a? Numeric }
     end
 
     is_numeric?(@first_dataset) && is_numeric?(@second_dataset)
@@ -30,7 +30,7 @@ private
 
   def parse_datasets
     def parse_dataset(dataset)
-      unless dataset.map! {|e| e[/\d+/]}.any? {|e| e.nil?} then
+      unless dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? } then
         dataset.map! &:to_f
       else
         false

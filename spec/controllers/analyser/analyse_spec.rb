@@ -21,7 +21,7 @@ describe AnalyserController, type: :controller do
       end
 
       it 'returns result' do
-        post :analyse, {dataset: dataset}
+        post :analyse, { dataset: dataset }
 
         expect(response).to have_http_status 200
         expect(JSON.parse(response.body)).to eq expected_response
@@ -37,7 +37,7 @@ describe AnalyserController, type: :controller do
       end
 
       it 'returns error' do
-        post :analyse, {dataset: [1, 2, 'f', 4, 5]}
+        post :analyse, { dataset: [1, 2, 'f', 4, 5] }
 
         expect(response).to have_http_status 422
       end

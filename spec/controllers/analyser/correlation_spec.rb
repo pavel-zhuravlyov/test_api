@@ -9,7 +9,7 @@ describe AnalyserController, type: :controller do
       end
 
       it 'returns result' do
-        post :correlation, {first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4, 5]}
+        post :correlation, { first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4, 5] }
 
         expect(response).to have_http_status 200
         expect(JSON.parse(response.body)['correlation']).to eq 1
@@ -26,7 +26,7 @@ describe AnalyserController, type: :controller do
         end
 
         it 'returns error' do
-          post :correlation, {first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4]}
+          post :correlation, { first_dataset: [1, 2, 3, 4, 5], second_dataset: [1, 2, 3, 4] }
           expect(response).to have_http_status 422
         end
       end
@@ -40,7 +40,7 @@ describe AnalyserController, type: :controller do
         end
 
         it 'returns error' do
-          post :correlation, {first_dataset: [1, '2', 3, 4, 5], second_dataset: [1, 'tu', 3, 4, 5]}
+          post :correlation, { first_dataset: [1, '2', 3, 4, 5], second_dataset: [1, 'tu', 3, 4, 5] }
           expect(response).to have_http_status 422
         end
       end

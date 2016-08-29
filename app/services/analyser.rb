@@ -14,11 +14,11 @@ class Analyser
 private
 
   def dataset_is_numeric
-    @dataset.all? {|e| e.is_a? Numeric}
+    @dataset.all? { |e| e.is_a? Numeric }
   end
 
   def parse_dataset
-    unless @dataset.map! {|e| e[/\d+/]}.any? {|e| e.nil?} then
+    unless @dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? } then
       @dataset.map! &:to_f
     else
       false
