@@ -1,5 +1,5 @@
 class CorrelationChecker
-  attr_accessor :result
+  attr_reader :result
 
   def initialize(first_dataset:, second_dataset:)
       @first_dataset = first_dataset
@@ -34,7 +34,7 @@ private
   end
 
   def validate_dataset(dataset)
-    dataset.respond_to?(:each) && dataset.all? { |e| e.is_a? Numeric }
+    dataset.respond_to?(:each) && dataset.size > 0 && dataset.all? { |e| e.is_a? Numeric }
   end
 
   def mean(numbers)

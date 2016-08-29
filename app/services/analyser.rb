@@ -1,5 +1,5 @@
 class Analyser
-  attr_accessor :result
+  attr_reader :result
 
   def initialize(dataset:)
     @dataset = dataset
@@ -30,7 +30,7 @@ private
   end
 
   def validate_dataset
-    @dataset.respond_to?(:each) && @dataset.all? { |e| e.is_a? Numeric }
+    @dataset.respond_to?(:each) && @dataset.size > 0 && @dataset.all? { |e| e.is_a? Numeric }
   end
 
   def mean(numbers)
