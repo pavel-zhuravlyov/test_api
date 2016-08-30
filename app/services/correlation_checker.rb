@@ -7,37 +7,46 @@ class CorrelationChecker
   end
 
   def perform
-    return false unless (datasets_are_numeric || parse_datasets) &&
-      datasets_are_valid_and_of_equal_size
+    return false unless (numeric_datasets? || (string_datasets? && parse_datasets)) &&
+      valid_datasets?
 
     correlation
   end
 
 private
 
-  def datasets_are_numeric
-    def is_numeric?(dataset)
-      return dataset.all? { |e| e.is_a? Numeric }
+  def numeric_datasets?
+    def numeric?(dataset)
+      dataset.all? { |e| e.is_a? Numeric }
     end
 
-    is_numeric?(@first_dataset) && is_numeric?(@second_dataset)
+    numeric?(@first_dataset) && numeric?(@second_dataset)
   end
 
-  def datasets_are_valid_and_of_equal_size
-    @first_dataset.size > 1 && @second_dataset.size > 1 &&
-      @first_dataset.size == @second_dataset.size
+  def string_datasets?
+    def string?(dataset)
+      dataset.all? { |e| e.is_a? String }
+    end
+
+    string?(@first_dataset) && string?(@second_dataset)
   end
 
   def parse_datasets
     def parse_dataset(dataset)
-      unless dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? } then
-        dataset.map! &:to_f
-      else
-        false
-      end
+      return dataset.map! &:to_f unless dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? }
+
+      false
     end
 
     parse_dataset(@first_dataset) && parse_dataset(@second_dataset)
+  end
+
+  def valid_datasets?
+    @first_dataset.uniq!
+    @second_dataset.uniq!
+
+    @first_dataset.size > 1 && @second_dataset.size > 1 &&
+      @first_dataset.size == @second_dataset.size
   end
 
   def correlation
@@ -49,7 +58,7 @@ private
   def numerator
     @first_dataset.map { |element| element - mean(@first_dataset) }
       .zip(@second_dataset.map { |element| element - mean(@second_dataset) })
-      .map! { |element| element.reduce(:*) } .reduce(:+)
+      .map! { |element| element.reduce(:*) } .reduce (:+)
   end
 
   def denominator

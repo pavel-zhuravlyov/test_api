@@ -6,23 +6,30 @@ class Analyser
   end
 
   def perform
-    return false unless (dataset_is_numeric || parse_dataset) && @dataset.size > 1
+    return false unless (numeric_dataset? || (string_dataset? && parse_dataset)) &&
+      valid_dataset?
 
     analyse
   end
 
 private
 
-  def dataset_is_numeric
+  def numeric_dataset?
     @dataset.all? { |e| e.is_a? Numeric }
   end
 
+  def string_dataset?
+    @dataset.all? { |e| e.is_a? String }
+  end
+
   def parse_dataset
-    unless @dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? } then
-      @dataset.map! &:to_f
-    else
-      false
-    end
+    return @dataset.map! &:to_f unless @dataset.map! { |e| e[/\d+/] }.any? { |e| e.nil? }
+
+    false
+  end
+
+  def valid_dataset?
+    @dataset.size > 1
   end
 
   def analyse
